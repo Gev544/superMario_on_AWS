@@ -1,0 +1,36 @@
+{
+    "variables" : {
+        "region" : "eu-north-1"
+    },
+    "builders" : [
+        {
+            "type" : "amazon-ebs",
+            "profile" : "default",
+            "region" : "{{user `region`}}",
+            "instance_type" : "m5.large",
+            "source_ami_filter": {
+              "filters": {
+                 "virtualization-type": "hvm",
+                  "name": "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20200112",
+                  "root-device-type": "ebs"
+              },
+              "owners": ["099720109477"],
+              "most_recent": true
+            },
+            "ssh_username" : "ubuntu",
+            "ami_name" : "superMarioImage",
+            "ami_description" : "Amazon Linux Image with Super Mario running",
+            "run_tags" : {
+                "Name" : "packer-builder-superMario",
+                "Tool" : "Packer",
+                "Author" : "gabovyan"
+            }
+        }
+    ],
+    "provisioners" : [
+        {
+            "type" : "ansible",
+            "playbook_file" : "../ansible/superMario.yml"
+        }
+    ]
+}
