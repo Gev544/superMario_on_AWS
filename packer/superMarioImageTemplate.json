@@ -1,17 +1,13 @@
 {
-    "variables" : {
-        "region" : "eu-north-1"
-    },
     "builders" : [
         {
             "type" : "amazon-ebs",
             "profile" : "default",
-            "region" : "{{user `region`}}",
-            "instance_type" : "m5.large",
+            "instance_type" : "t2.micro",
             "source_ami_filter": {
               "filters": {
                  "virtualization-type": "hvm",
-                  "name": "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20200112",
+                  "name": "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-20210430",
                   "root-device-type": "ebs"
               },
               "owners": ["099720109477"],
