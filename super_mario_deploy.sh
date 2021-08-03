@@ -1,11 +1,9 @@
 #!/bin/bash
 
-echo "Write aws region for deployment..."
-read aws_region
-
-if [[ ${aws_region} != *-*-[1-9] ]]
+aws_region=$(aws configure get default.region)
+if [[ $? != 0 ]]
   then
-    echo " Please write valid aws region!!!"
+    echo "Something wrong while getting aws default region, now exiting..."
     exit 1
 fi
 
@@ -33,4 +31,26 @@ if [[ $? != 0 ]]
     echo "Something wrong while executing terraform plan, now exiting..."
     exit 1
 fi
+
 terraform apply -auto-approve -var "aws_region=${aws_region}"
+if [[ $? != 0 ]]
+  then
+    echo "Something wrong while executing terraform apply, now exiting..."
+    exit 1
+fi
+
+GAME_URL=(aws elb describe-load-balancers --load-balancer-names sm-alb \
+                                          --region ${aws_region} \
+                                          --query LoadBalancerDescriptions[*].DNSName \
+                                          --output text)
+if [[ $? != 0 ]]
+  then
+    echo "Something wrong while getting game URL, now exiting..."
+    exit 1
+fi
+
+
+echo "You can play Super Mario with the URL below"
+echo "##########################################################"
+echo "###http://${GAME_URL}###"
+echo "##########################################################"

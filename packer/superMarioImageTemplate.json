@@ -16,6 +16,10 @@
             "ssh_username" : "ubuntu",
             "ami_name" : "superMarioImage",
             "ami_description" : "Amazon Linux Image with Super Mario running",
+            "tags": {
+               "Name": "superMarioImage",
+               "owner": "gabovyan"
+      },
             "run_tags" : {
                 "Name" : "packer-builder-superMario",
                 "Tool" : "Packer",
